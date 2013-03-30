@@ -24,7 +24,7 @@ WARNING: This module is Work in Progress, which means: this interface is
 not final. This will perhaps change in the future.  
 A sample of the code can be seen below.
 
-	![Hello World Application](examples/images/hello_world.png)
+	![Hello World Application](examples/images/hello_world.png)  
 
 	use IUP;
 
