@@ -24,24 +24,63 @@ WARNING: This module is Work in Progress, which means: this interface is
 not final. This will perhaps change in the future.  
 A sample of the code can be seen below.
 
-    use IUP;
+->![Hello World Application](examples/images/hello_world.png)<-
 
-    my $iup = IUP.new();
+	use IUP;
 
-    my @argv = ("Test");
-    $iup.open(@argv);
+	my $iup = IUP.new();
 
-    my $ih = IUP::IHandle.new();
-    (
-	    (
-		    $ih.label("Hello, world!")
-	    ).dialog()
-    ).show();
+	my @argv = ("Test");
 
-    $iup.main_loop();
-    $iup.close();
+	#
+	# initialize iup
+	#
+	$iup.open(@argv);
+
+	my $ih = IUP::Handle.new();
+
+	#
+	# create widgets and set their attributes
+	#
+	my $btn = $ih.button("&Ok", "");
+	$btn.set_callback("ACTION", &exit_callback);
+	$btn.set_attribute(
+		expand => "YES",
+		tip    => "Exit button");
+
+	my $lbl = $ih.label("Hello, world!");
+
+	my $vb = $ih.vbox($lbl, $btn);
+	$vb.set_attribute(
+		margin    => "10x10",
+		gap       => "10",
+		alignment => "ACENTER");
+
+	my $dlg = $vb.dialog();
+	$dlg.set_attribute("TITLE", "Hello");
+
+	#
+	# Map widgets and show dialog
+	#
+	$dlg.show();
+
+	#
+	# Wait for user interaction
+	#
+	$iup.main_loop();
+
+	#
+	# Clean up
+	#
+	$dlg.destroy();
+
+	$iup.close();
 
 	exit();
+
+	sub exit_callback() {
+		return IUP_CLOSE;
+	}
 
 Author
 ------
