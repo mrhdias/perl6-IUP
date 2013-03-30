@@ -115,7 +115,7 @@ class IUP {
 	}
 
 	method loop_step(Bool $wait = False) {
-		return $wait ?? IupLoopStep() !! IupLoopStepWait();
+		return $wait ?? IupLoopStepWait() !! IupLoopStep();
 	}
 	
 	method main_loop_level() {
