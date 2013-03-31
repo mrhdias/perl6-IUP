@@ -11,7 +11,7 @@ my $iup = IUP.new();
 my @argv = ("Test");
 $iup.open(@argv);
 
-my $ih = IUP::IHandle.new();
+my $ih = IUP::Handle.new();
 
 (
 	(
