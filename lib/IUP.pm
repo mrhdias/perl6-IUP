@@ -33,8 +33,8 @@ constant IUP_CONTINUE	= -4;
 class IUP::Callback is repr('CPointer') {}
 
 class IUP::Handle is repr('CPointer') {
-	
-	sub IupTakeACallback(&cb())
+
+	sub IupTakeACallback(&cb(--> int32))
 		returns IUP::Callback is native(LOCAL_LIB) { ... };
 
 	sub IupDestroy(IUP::Handle)

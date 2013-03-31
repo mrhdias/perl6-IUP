@@ -16,6 +16,6 @@
 #define DLLEXPORT extern
 #endif
 
-DLLEXPORT Icallback IupTakeACallback(Icallback (*cb)(void)) {
-	return (Icallback)cb();
+DLLEXPORT Icallback IupTakeACallback(int (*cb)(void)) {
+	return (Icallback)cb;
 }
