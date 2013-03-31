@@ -67,6 +67,6 @@ $iup.close();
 
 exit();
 
-sub exit_callback() {
+sub exit_callback() returns Int {
 	return IUP_CLOSE;
 }
