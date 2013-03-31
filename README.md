@@ -80,7 +80,7 @@ A sample of the code can be seen below.
 
 	exit();
 
-	sub exit_callback() {
+	sub exit_callback() returns Int {
 		return IUP_CLOSE;
 	}
 
