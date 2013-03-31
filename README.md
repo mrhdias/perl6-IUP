@@ -24,7 +24,9 @@ WARNING: This module is Work in Progress, which means: this interface is
 not final. This will perhaps change in the future.  
 A sample of the code can be seen below.
 
-	![Hello World Application](examples/images/hello_world.png)  
+<p align="center">
+<img src="https://raw.github.com/mrhdias/perl6-IUP/master/examples/images/hello_world.png" alt="Hello World IUP Application"/>
+</p>
 
 	use IUP;
 
