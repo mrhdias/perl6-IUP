@@ -1,42 +1,92 @@
 use NativeCall;
 
-# point NativeCall to correct library
-# (may become obsolete in the future)
-sub LIBIUP  {
+sub libname($lib) {
 	given $*VM{'config'}{'load_ext'} {
-		when '.so'      { return 'libiup.so' }		# Linux
-		when '.bundle'  { return 'libiup.dylib' }	# Mac OS
-		default         { return 'libiup' }
+		when '.so' { return "$lib.so" }         # Linux
+		when '.bundle' { return "$lib.dylib" }  # Mac OS
+		default { return $lib }
 	}
+};
+
+sub find_lib($libname) {
+	my $path = $libname;
+	for @*INC -> $libdir {
+		if "$libdir/$libname".IO ~~ :e {
+			$path = "$libdir/$libname";
+			last;
+		}
+	}
+	return $path;
 }
 
-class IUP::IHandle is repr('CPointer') {
+sub LIBIUP() { return libname("libiup"); }
+sub LOCAL_LIB() { return find_lib(libname("IUP")); }
 
-	sub IupDialog(IUP::IHandle)
-		returns IUP::IHandle is native(LIBIUP) { ... };
+#
+# Callback Return Values
+#
+constant IUP_IGNORE		= -1;
+constant IUP_DEFAULT	= -2;
+constant IUP_CLOSE		= -3;
+constant IUP_CONTINUE	= -4;
 
-	sub IupPopup(IUP::IHandle, int32, int32)
+class IUP::Callback is repr('CPointer') {}
+
+class IUP::Handle is repr('CPointer') {
+	
+	sub IupTakeACallback(&cb())
+		returns IUP::Callback is native(LOCAL_LIB) { ... };
+
+	sub IupDestroy(IUP::Handle)
+		is native(LIBIUP) { ... };
+
+	###
+
+	sub IupPopup(IUP::Handle, int32, int32)
 		returns int32 is native(LIBIUP) { ... };
 
-	sub IupShow(IUP::IHandle)
+	sub IupShow(IUP::Handle)
 		returns int32 is native(LIBIUP) { ... };
 
-	sub IupShowXY(IUP::IHandle, int32, int32)
+	sub IupShowXY(IUP::Handle, int32, int32)
 		returns int32 is native(LIBIUP) { ... };
 	
-	sub IupHide(IUP::IHandle)
+	sub IupHide(IUP::Handle)
 		returns int32 is native(LIBIUP) { ... };
+
+	###
+
+	sub IupSetAttribute(IUP::Handle, Str, Str)
+		is native(LIBIUP) { ... };
+
+	###
+
+	sub IupSetCallback(IUP::Handle, Str, IUP::Callback)
+		returns IUP::Callback is native(LIBIUP) { ... };
+
+	###
+
+	sub IupVboxv(CArray[OpaquePointer])
+		returns IUP::Handle is native(LIBIUP) { ... };
+
+	###
+
+	sub IupButton(Str, Str)
+		returns IUP::Handle is native(LIBIUP) { ... };
+
+	sub IupDialog(IUP::Handle)
+		returns IUP::Handle is native(LIBIUP) { ... };
 	
 	sub IupLabel(Str)
-		returns IUP::IHandle is native(LIBIUP) { ... };
+		returns IUP::Handle is native(LIBIUP) { ... };
 
-	method label(Str $str) {
-		return IupLabel($str);
+	### METHODS ###
+
+	method destroy() {
+		IupDestroy(self);
 	}
 
-	method dialog() {
-		return IupDialog(self);
-	}
+	###
 
 	method popup(Int $x, Int $y) {
 		return IupPopup(self, $x, $y);
@@ -54,6 +104,53 @@ class IUP::IHandle is repr('CPointer') {
 		return IupHide(self);
 	}
 
+	###
+
+	multi method set_attribute(Str $name, Str $value) {
+		IupSetAttribute(self, uc($name), $value);
+	}
+
+	multi method set_attribute(*%attributes) {
+		for %attributes.kv -> $name, $value {			
+			IupSetAttribute(self, uc($name), $value);
+		}
+	}
+
+	###
+
+	method set_callback(Str $name, $function) {
+		return IupSetCallback(self, uc($name), IupTakeACallback($function));
+	}
+
+	###
+
+	method vboxv(*@child) {
+		my @array_child := CArray[OpaquePointer].new();
+		my $i = 0;
+		for @child -> $c {
+			@array_child[$i] = $c;
+			$i++;
+		}
+		return IupVboxv(@array_child);
+	}
+
+	method vbox(*@child) {
+		return self.vboxv(@child);
+	}
+
+	###
+
+	method button(Str $title, Str $action) {
+		return IupButton($title, $action);
+	}
+
+	method dialog() {
+		return IupDialog(self);
+	}
+
+	method label(Str $str) {
+		return IupLabel($str);
+	}
 }
 
 class IUP {
