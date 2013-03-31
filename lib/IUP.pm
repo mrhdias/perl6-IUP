@@ -32,6 +32,8 @@ constant IUP_CONTINUE	= -4;
 
 class IUP::Callback is repr('CPointer') {}
 
+class ChildrenPtr is repr('CPointer') {}
+
 class IUP::Handle is repr('CPointer') {
 
 	sub IupTakeACallback(&cb(--> int32))
@@ -64,9 +66,12 @@ class IUP::Handle is repr('CPointer') {
 	sub IupSetCallback(IUP::Handle, Str, IUP::Callback)
 		returns IUP::Callback is native(LIBIUP) { ... };
 
+	sub IupSetHandle(Str, IUP::Handle)
+		returns IUP::Handle is native(LIBIUP) { ... };
+
 	###
 
-	sub IupVboxv(CArray[OpaquePointer])
+	sub IupVboxv(CArray[ChildrenPtr] $children)
 		returns IUP::Handle is native(LIBIUP) { ... };
 
 	###
@@ -122,10 +127,13 @@ class IUP::Handle is repr('CPointer') {
 		return IupSetCallback(self, uc($name), IupTakeACallback($function));
 	}
 
+	method set_handle(Str $name) {
+		return IupSetHandle($name, self);
+	}
 	###
 
 	method vboxv(*@child) {
-		my @array_child := CArray[OpaquePointer].new();
+		my @array_child := CArray[ChildrenPtr].new();
 		my $i = 0;
 		for @child -> $c {
 			@array_child[$i] = $c;
