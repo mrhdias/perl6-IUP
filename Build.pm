@@ -13,7 +13,7 @@ class Build is Panda::Builder {
 		my $c_line = "$*VM<config><cc> -c $*VM<config><cc_shared> $*VM<config><cc_o_out>src/$name$o "
 						~ "$*VM<config><ccflags> src/$name.c";
 		my $l_line = "$*VM<config><ld> $*VM<config><ld_load_flags> $*VM<config><ldflags> "
-						~ "$*VM<config><libs> $libs $*VM<config><ld_out>src/$name$so src/$name$o";
+						~ "$*VM<config><libs>$libs $*VM<config><ld_out>src/$name$so src/$name$o";
 		shell($c_line);
 		shell($l_line);
 		shell("rm src/$name$o");
