@@ -13,11 +13,7 @@ $iup.open(@argv);
 
 my $ih = IUP::Handle.new();
 
-(
-	(
-		$ih.label("Hello, world!")
-	).dialog()
-).show();
+$ih.dialog($ih.label("Hello, world!")).show();
 
 $iup.main_loop();
 $iup.close();
