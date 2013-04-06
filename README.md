@@ -20,23 +20,25 @@ You can download the library binaries or sources for your platform from [here][5
 
 Synopsis
 --------
-WARNING: This module is Work in Progress, which means: this interface is
-not final. This will perhaps change in the future.  
+WARNING: This module is Work in Progress and is in a early stage, which means:
+this interface is not final. This will perhaps change in the future.  
 A sample of the code can be seen below.
 
 <p align="center">
-<img src="https://raw.github.com/mrhdias/perl6-IUP/master/examples/images/hello_world.png" alt="Hello World IUP Application"/>
+<img src="https://raw.github.com/mrhdias/perl6-IUP/master/examples/images/widgets.png" alt="Hello World IUP Application"/>
 </p>
 
 	use IUP;
-
-	my $iup = IUP.new();
 
 	my @argv = ("Test");
 
 	#
 	# initialize iup
 	#
+
+	my $iup = IUP.new();
+
+	$iup.image_lib_open();
 	$iup.open(@argv);
 
 	my $ih = IUP::Handle.new();
@@ -44,38 +46,42 @@ A sample of the code can be seen below.
 	#
 	# create widgets and set their attributes
 	#
+
 	my $btn = $ih.button("&Ok", "");
+
 	$btn.set_callback("ACTION", &exit_callback);
-	$btn.set_attribute(
-		expand => "YES",
-		tip    => "Exit button");
+
+	$btn.set_attribute("IMAGE", "IUP_ActionOk");
+	$btn.set_attribute("EXPAND", "YES");
+	$btn.set_attribute("TIP", "Exit button");
 
 	my $lbl = $ih.label("Hello, world!");
 
 	my $vb = $ih.vbox($lbl, $btn);
-	$vb.set_attribute(
-		margin    => "10x10",
-		gap       => "10",
-		alignment => "ACENTER");
+	$vb.set_attribute("MARGIN", "10x10");
+	$vb.set_attribute("GAP", "10");
+	$vb.set_attribute("ALIGNMENT", "ACENTER");
 
-	my $dlg = $vb.dialog();
+	my $dlg = $ih.dialog($vb);
 	$dlg.set_attribute("TITLE", "Hello");
 
 	#
 	# Map widgets and show dialog
 	#
+
 	$dlg.show();
 
 	#
 	# Wait for user interaction
 	#
+
 	$iup.main_loop();
 
 	#
 	# Clean up
 	#
-	$dlg.destroy();
 
+	$dlg.destroy();
 	$iup.close();
 
 	exit();
