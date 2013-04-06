@@ -10,13 +10,8 @@ sub libname($lib) {
 
 sub find_lib($libname) {
 	my $path = $libname;
-	for @*INC -> $libdir {
-		if "$libdir/$libname".IO ~~ :e {
-			$path = "$libdir/$libname";
-			last;
-		}
-	}
-	return $path;
+	my $libpath = %*ENV<PERL6LIB>;
+	return join("/", $libpath.substr(1, *-0), $libname);
 }
 
 sub LOCAL_LIB() { return find_lib(libname("IUP")); }
@@ -24,23 +19,23 @@ sub LOCAL_LIB() { return find_lib(libname("IUP")); }
 #
 # Callback Return Values
 #
-constant IUP_IGNORE		= -1;
-constant IUP_DEFAULT	= -2;
-constant IUP_CLOSE		= -3;
-constant IUP_CONTINUE	= -4;
+constant IUP_IGNORE   = -1;
+constant IUP_DEFAULT  = -2;
+constant IUP_CLOSE    = -3;
+constant IUP_CONTINUE = -4;
 
 #
 # IupPopup and IupShowXY Parameter Values
 #
-constant IUP_CENTER			= 0xFFFF;  # 65535
-constant IUP_LEFT 			= 0xFFFE;  # 65534
-constant IUP_RIGHT			= 0xFFFD;  # 65533
-constant IUP_MOUSEPOS		= 0xFFFC;  # 65532
-constant IUP_CURRENT		= 0xFFFB;  # 65531
-constant IUP_CENTERPARENT	= 0xFFFA;  # 65530
+constant IUP_CENTER       = 0xFFFF;  # 65535
+constant IUP_LEFT         = 0xFFFE;  # 65534
+constant IUP_RIGHT        = 0xFFFD;  # 65533
+constant IUP_MOUSEPOS     = 0xFFFC;  # 65532
+constant IUP_CURRENT      = 0xFFFB;  # 65531
+constant IUP_CENTERPARENT = 0xFFFA;  # 65530
 
-constant IUP_TOP			= IUP_LEFT;
-constant IUP_BOTTOM			= IUP_RIGHT;
+constant IUP_TOP    = IUP_LEFT;
+constant IUP_BOTTOM = IUP_RIGHT;
 
 class IUP::Pixmap {
 	method load(@data) {
