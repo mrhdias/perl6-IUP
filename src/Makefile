@@ -19,7 +19,7 @@ CC = cc $(CFLAGS)
 all: IUP.o IUP.so
 
 IUP.o:
-	$(CC) -o IUP.o -fPIC -c IUP.c
+	$(CC) -fPIC -o IUP.o -c IUP.c
 
 IUP.so:
 	cc -liup -liupimglib -shared -s -o IUP.so IUP.o
