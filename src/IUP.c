@@ -66,10 +66,11 @@ DLLEXPORT int p6IupOpen(int argc, char **argv) {
 }
 
 DLLEXPORT Ihandle* p6IupItem(char* title, char* action) {
-#ifdef DEBUG
-	printf("p6IupItem: SIZE(%d)\n", (int)strlen(action));
-#endif
 	return IupItem(title, strlen(action) ? action : NULL);
+}
+
+DLLEXPORT Ihandle* p6IupButton(char* title, char* action) {
+	return IupButton(title, strlen(action) ? action : NULL);
 }
 
 DLLEXPORT Ihandle* p6IupMenu(Ihandle* child) {
@@ -78,6 +79,14 @@ DLLEXPORT Ihandle* p6IupMenu(Ihandle* child) {
 
 DLLEXPORT Ihandle* p6IupVbox(Ihandle* child) {
 	return IupVbox(child, NULL);
+}
+
+DLLEXPORT Ihandle* p6IupHbox(Ihandle* child) {
+	return IupHbox(child, NULL);
+}
+
+DLLEXPORT Ihandle* p6IupText(char* action) {
+	return IupText(strlen(action) ? action : NULL);
 }
 
 //
