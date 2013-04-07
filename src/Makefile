@@ -14,15 +14,15 @@ else
 	CFLAGS=-DNDEBUG
 endif
 
-CC = cc $(CFLAGS)
+CC = cc
 
 all: IUP.o IUP.so
 
 IUP.o:
-	$(CC) -fPIC -o IUP.o -c IUP.c
+	$(CC) $(CFLAGS) -fPIC -o IUP.o -c IUP.c
 
 IUP.so:
-	cc -liup -liupimglib -shared -s -o IUP.so IUP.o
+	$(CC) -liup -liupimglib -shared -s -o IUP.so IUP.o
 
 install:
 	cp IUP.so ../lib/IUP.so
