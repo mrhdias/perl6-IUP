@@ -8,13 +8,14 @@ sub libname($lib) {
 	}
 };
 
-sub find_lib($libname) {
-	my $path = $libname;
-	my $libpath = %*ENV<PERL6LIB>;
-	return join("/", $libpath.substr(1, *-0), $libname);
-}
+#sub find_lib($libname) {
+#	my $path = $libname;
+#	my $libpath = %*ENV<PERL6LIB>;
+#	return join("/", $libpath.substr(1, *-0), $libname);
+#}
+#sub LOCAL_LIB() { return find_lib(libname("IUP")); }
 
-sub LOCAL_LIB() { return find_lib(libname("IUP")); }
+sub LOCAL_LIB() { return libname("IUP"); }
 
 #
 # Callback Return Values
