@@ -15,7 +15,7 @@ Its main advantages are:
 * high performance, due to the fact that it uses native interface elements.
 * fast learning by the user, due to the simplicity of its API.
 
-You will need the Linux `libiup` library installed in order to use perl6-IUP (version 3).
+You will need the Linux `libiup` and `libiupimglib` and library installed in order to use perl6-IUP (version 3).
 You can download the library binaries or sources for your platform from [here][5].
 
 Synopsis
