@@ -1,7 +1,5 @@
 #!/usr/bin/env perl6
 
-use NativeCall;
-
 BEGIN { @*INC.push('../lib') };
 
 use IUP;
