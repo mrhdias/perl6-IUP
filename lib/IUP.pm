@@ -144,10 +144,24 @@ class IUP::Handle is repr('CPointer') {
 
 	###
 
+	sub IupFill()
+		returns IUP::Handle is native(LOCAL_LIB) { ... };
+		
 	sub p6IupVbox(IUP::Handle)
 		returns IUP::Handle is native(LOCAL_LIB) { ... };
 
 	sub IupVboxv(OpaquePointer)
+		returns IUP::Handle is native(LOCAL_LIB) { ... };
+
+	sub p6IupHbox(IUP::Handle)
+		returns IUP::Handle is native(LOCAL_LIB) { ... };
+
+	sub IupHboxv(OpaquePointer)
+		returns IUP::Handle is native(LOCAL_LIB) { ... };
+
+	###
+	
+	sub IupFrame(IUP::Handle $child)
 		returns IUP::Handle is native(LOCAL_LIB) { ... };
 
 	###
@@ -180,7 +194,7 @@ class IUP::Handle is repr('CPointer') {
 	
 	###
 
-	sub IupButton(Str $title, Str $action)
+	sub p6IupButton(Str $title, Str $action)
 		returns IUP::Handle is native(LOCAL_LIB) { ... };
 
 	sub IupCanvas(Str $action)
@@ -191,7 +205,15 @@ class IUP::Handle is repr('CPointer') {
 
 	sub IupLabel(Str)
 		returns IUP::Handle is native(LOCAL_LIB) { ... };
+	
+	sub p6IupText(Str $action)
+		returns IUP::Handle is native(LOCAL_LIB) { ... };
 
+	###
+
+	sub IupMessage(Str $title, Str $message)
+		is native(LOCAL_LIB) { ... };
+	
 	### METHODS ###
 
 	method destroy() {
@@ -314,6 +336,10 @@ class IUP::Handle is repr('CPointer') {
 	}
 
 	###
+	
+	method fill() {
+		return IupFill();
+	}
 
 	method vboxv(*@child) {
 		my $n = @child.elems;
@@ -335,6 +361,34 @@ class IUP::Handle is repr('CPointer') {
 
 	method vbox(*@child) {
 		return self.vboxv(@child);
+	}
+
+	method hboxv(*@child) {
+		my $n = @child.elems;
+		if $n > 1 {
+			my $list = p6IupNewChildrenList($n);
+			my $pos = 0;
+			for @child -> $c {
+				p6IupAddChildToList($list, $c, $pos, $n);
+				$pos++;
+			}
+			my $result = IupHboxv($list);
+			p6IupFree($list);
+			return $result;
+		}
+		if $n == 1 {
+			return p6IupHbox(@child[0]);
+		}
+	}
+
+	method hbox(*@child) {
+		return self.hboxv(@child);
+	}
+
+	###
+
+	method frame($child) {
+		return IupFrame($child);	
 	}
 
 	###
@@ -390,7 +444,7 @@ class IUP::Handle is repr('CPointer') {
 	###
 
 	method button(Str $title, Str $action) {
-		return IupButton($title, $action);
+		return p6IupButton($title, $action);
 	}
 
 	method canvas(Str $action) {
@@ -403,6 +457,16 @@ class IUP::Handle is repr('CPointer') {
 
 	method label(Str $str) {
 		return IupLabel($str);
+	}
+	
+	method text(Str $action) {
+		return p6IupText($action);
+	}
+	
+	###
+	
+	method message(Str $title, Str $message) {
+		IupMessage($title, $message);
 	}
 }
 
