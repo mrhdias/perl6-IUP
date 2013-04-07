@@ -4,7 +4,7 @@ use Panda::Builder;
 my $o  = $*VM<config><o>;
 my $so = $*VM<config><load_ext>;
 my $name = "IUP";
-my $libs = "-liup -liupimglib";
+my $libs = "-Wl,--no-as-needed -liup -liupimglib";
 
 class Build is Panda::Builder {
     method build(Pies::Project $p) {
@@ -14,11 +14,6 @@ class Build is Panda::Builder {
 						~ "$*VM<config><ccflags> src/$name.c";
 		my $l_line = "$*VM<config><ld> $*VM<config><ld_load_flags> $*VM<config><ldflags> "
 						~ "$*VM<config><libs>$libs $*VM<config><ld_out>src/$name$so src/$name$o";
-
-		# Linker Switch Problem
-		# -Wl,-O1 -Wl,--as-needed -Wl,-s 
-		$l_line = $l_line.subst(rx/\-Wl\,\-\-as\-needed /, '', :g);
-
 		shell($c_line);
 		shell($l_line);
 		shell("rm src/$name$o");
