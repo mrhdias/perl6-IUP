@@ -15,8 +15,19 @@ Its main advantages are:
 * high performance, due to the fact that it uses native interface elements.
 * fast learning by the user, due to the simplicity of its API.
 
+Installation
+------------
 You will need the Linux `libiup` and `libiupimglib` and library installed in order to use perl6-IUP (version 3).
 You can download the library binaries or sources for your platform from [here][5].
+
+To install with the Panda tool.
+
+	panda update
+	panda install IUP
+
+To run a script that uses the IUP library.
+
+	PERL6LIB=$HOME/.perl6/2013.02.1/lib LD_LIBRARY_PATH=$HOME/.perl6/2013.02.1/lib ./hello.p6
 
 Synopsis
 --------
