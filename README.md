@@ -17,8 +17,9 @@ Its main advantages are:
 
 Installation
 ------------
-You will need the Linux `libiup` and `libiupimglib` and library installed in order to use perl6-IUP (version 3).
-You can download the library binaries or sources for your platform from [here][5].
+You will need the Linux libraries `libiup` and `libiupimglib` installed
+in order to use perl6-IUP (version 3). You can download the library binaries
+or sources for your platform from [here][5].
 
 To install with the Panda tool.
 
@@ -52,13 +53,11 @@ A sample of the code can be seen below.
 	$iup.image_lib_open();
 	$iup.open(@argv);
 
-	my $ih = IUP::Handle.new();
-
 	#
 	# create widgets and set their attributes
 	#
 
-	my $btn = $ih.button("&Ok", "");
+	my $btn = $iup.button("&Ok", "");
 
 	$btn.set_callback("ACTION", &exit_callback);
 
@@ -66,14 +65,14 @@ A sample of the code can be seen below.
 	$btn.set_attribute("EXPAND", "YES");
 	$btn.set_attribute("TIP", "Exit button");
 
-	my $lbl = $ih.label("Hello, world!");
+	my $lbl = $iup.label("Hello, world!");
 
-	my $vb = $ih.vbox($lbl, $btn);
+	my $vb = $iup.vbox($lbl, $btn);
 	$vb.set_attribute("MARGIN", "10x10");
 	$vb.set_attribute("GAP", "10");
 	$vb.set_attribute("ALIGNMENT", "ACENTER");
 
-	my $dlg = $ih.dialog($vb);
+	my $dlg = $iup.dialog($vb);
 	$dlg.set_attribute("TITLE", "Hello");
 
 	#
