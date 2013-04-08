@@ -27,9 +27,14 @@ constant IUP_RIGHT        = 0xFFFD;  # 65533
 constant IUP_MOUSEPOS     = 0xFFFC;  # 65532
 constant IUP_CURRENT      = 0xFFFB;  # 65531
 constant IUP_CENTERPARENT = 0xFFFA;  # 65530
+constant IUP_TOP          = IUP_LEFT;
+constant IUP_BOTTOM       = IUP_RIGHT;
 
-constant IUP_TOP    = IUP_LEFT;
-constant IUP_BOTTOM = IUP_RIGHT;
+#
+# Color Space
+#
+constant IUP_RGB  = 1;
+constant IUP_RGBA = 2;
 
 class IUP::Pixmap {
 	method load(@data) {
@@ -393,16 +398,17 @@ class IUP::Handle is repr('CPointer') {
 
 	###
 
-	method image(Int $width, Int $height, $pixmap) {
-		return IupImage($width, $height, $pixmap);
-	}
+	method image(
+		Int $width where $width > 0,
+		Int $height where $height > 0,
+		$pixels,
+		Int $color_space where 0..2 = 0) {
 
-	method image_rgb(Int $width, Int $height, $pixmap) {
-		return IupImageRGB($width, $height, $pixmap);
-	}
-
-	method image_rgba(Int $width, Int $height, $pixmap) {
-		return IupImageRGBA($width, $height, $pixmap);
+		given $color_space {
+			when 1 { return IupImageRGB($width, $height, $pixels); }
+			when 2 { return IupImageRGBA($width, $height, $pixels); }
+			default { return IupImage($width, $height, $pixels); }
+		}
 	}
 
 	###
@@ -470,7 +476,7 @@ class IUP::Handle is repr('CPointer') {
 	}
 }
 
-class IUP {
+class IUP is IUP::Handle {
 
 	sub p6IupOpen(int32, CArray[Str])
 		returns int32 is native(LOCAL_LIB) { ... };
