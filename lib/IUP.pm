@@ -402,11 +402,11 @@ class IUP::Handle is repr('CPointer') {
 		Int $width where $width > 0,
 		Int $height where $height > 0,
 		$pixels,
-		Int $color_space where 0..2 = 0) {
+		Int $color_space where 0..IUP_RGBA = 0) {
 
 		given $color_space {
-			when 1 { return IupImageRGB($width, $height, $pixels); }
-			when 2 { return IupImageRGBA($width, $height, $pixels); }
+			when IUP_RGB { return IupImageRGB($width, $height, $pixels); }
+			when IUP_RGBA { return IupImageRGBA($width, $height, $pixels); }
 			default { return IupImage($width, $height, $pixels); }
 		}
 	}
