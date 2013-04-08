@@ -15,12 +15,10 @@ my $iup = IUP.new();
 $iup.image_lib_open();
 $iup.open(@argv);
 
-my $ih = IUP::Handle.new();
-
 #
 # create widgets and set their attributes
 #
-my $btn = $ih.button("&Ok", "");
+my $btn = $iup.button("&Ok", "");
 
 $btn.set_callback("ACTION", &exit_callback);
 
@@ -28,14 +26,14 @@ $btn.set_attribute("IMAGE", "IUP_ActionOk");
 $btn.set_attribute("EXPAND", "YES");
 $btn.set_attribute("TIP", "Exit button");
 
-my $lbl = $ih.label("Hello, world!");
+my $lbl = $iup.label("Hello, world!");
 
-my $vb = $ih.vbox($lbl, $btn);
+my $vb = $iup.vbox($lbl, $btn);
 $vb.set_attribute("MARGIN", "10x10");
 $vb.set_attribute("GAP", "10");
 $vb.set_attribute("ALIGNMENT", "ACENTER");
 
-my $dlg = $ih.dialog($vb);
+my $dlg = $iup.dialog($vb);
 $dlg.set_attribute("TITLE", "Hello");
 
 #
