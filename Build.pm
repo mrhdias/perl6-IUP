@@ -7,9 +7,7 @@ my $name = "IUP";
 my $libs = "-Wl,--no-as-needed -liup -liupimglib";
 
 class Build is Panda::Builder {
-    method build(Pies::Project $p) {
-        my $workdir = $.resources.workdir($p);
-
+    method build(|) {
 		my $c_line = "$*VM<config><cc> -c $*VM<config><cc_shared> $*VM<config><cc_o_out>src/$name$o "
 						~ "$*VM<config><ccflags> src/$name.c";
 		my $l_line = "$*VM<config><ld> $*VM<config><ld_load_flags> $*VM<config><ldflags> "
