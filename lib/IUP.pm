@@ -1,7 +1,8 @@
 use NativeCall;
+use LibraryMake;
 
 sub libname($lib) {
-	given $*VM{'config'}{'load_ext'} {
+	given get-vars('')<SO> {
 		when '.so' { return "$lib.so" }         # Linux
 		when '.bundle' { return "$lib.dylib" }  # Mac OS
 		default { return $lib }
@@ -66,10 +67,10 @@ class IUP::Handle is repr('CPointer') {
 
 	### Callbacks
 
-	sub p6IupSetCallback_void(IUP::Handle, Str, &cb(--> int32))
+	sub p6IupSetCallback_void(IUP::Handle, Str, &cb (--> int32))
 		returns IUP::Callback is native(LOCAL_LIB) { ... };
 
-	sub p6IupSetCallback_handle(IUP::Handle, Str, &cb(IUP::Handle --> int32))
+	sub p6IupSetCallback_handle(IUP::Handle, Str, &cb (IUP::Handle --> int32))
 		returns IUP::Callback is native(LOCAL_LIB) { ... };
 
 	###

@@ -10,4 +10,4 @@ use IUP;
 
 ok 1, 'IUP is loaded successfully';
 
-done;
+done-testing;
