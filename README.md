@@ -21,10 +21,10 @@ You will need the Linux libraries `libiup` and `libiupimglib` installed
 in order to use perl6-IUP (version 3). You can download the library binaries
 or sources for your platform from [here][5].
 
-To install with the Panda tool.
+To install with the Zef tool.
 
-	panda update
-	panda install IUP
+	zef update
+	zef install IUP
 
 To run a script that uses the IUP library.
 

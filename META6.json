@@ -7,7 +7,7 @@
 		"IUP": "lib/IUP.pm"
 	},
 	"author" : "Henrique Dias",
-	"depends" : [ ],
+	"depends" : [ "LibraryMake" ],
 	"source-type" : "git",
 	"source-url" : "git://github.com/mrhdias/perl6-IUP.git"
 }
