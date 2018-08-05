@@ -6,7 +6,7 @@
 # the given effect.
 #
 
-BEGIN { @*INC.push('../lib') };
+use lib 'lib';
 
 use IUP;
 

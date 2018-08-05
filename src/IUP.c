@@ -17,7 +17,7 @@
 #endif
 
 DLLEXPORT Ihandle **p6IupNewChildrenList(int size) {
-
+        Ihandle** children;
 	if(!(size > 0)) {
 #ifdef DEBUG
 		printf("p6IupNewChildrenList: %s\n", "Wrong size...");
@@ -26,7 +26,7 @@ DLLEXPORT Ihandle **p6IupNewChildrenList(int size) {
 	}
 
 	// n + 1 to add the NULL Terminator.
-	Ihandle** children = malloc((size+1) * sizeof(Ihandle *));
+	children = malloc((size+1) * sizeof(Ihandle *));
 
 #ifdef DEBUG
 	printf("p6IupNewChildrenList: CHILDREN(%d) LIST(%d)\n", size, size+1);

@@ -1,6 +1,6 @@
 use v6;
 
-BEGIN @*INC.unshift('lib');
+use lib 'lib';
 
 use Test;
 
@@ -10,4 +10,4 @@ use IUP;
 
 ok 1, 'IUP is loaded successfully';
 
-done;
+done-testing;

@@ -1,9 +1,13 @@
 {
+	"perl" : "6.*",
 	"name" : "IUP",
 	"version" : "0.0.1",
 	"description" : "Perl 6 interface to the IUP toolkit for building GUI's",
+	"provides": {
+		"IUP": "lib/IUP.pm"
+	},
 	"author" : "Henrique Dias",
-	"depends" : [ "NativeCall" ],
+	"depends" : [ "LibraryMake" ],
 	"source-type" : "git",
 	"source-url" : "git://github.com/mrhdias/perl6-IUP.git"
 }

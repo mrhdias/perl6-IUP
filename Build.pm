@@ -1,19 +1,25 @@
-use Panda::Common;
-use Panda::Builder;
-
-my $o  = $*VM<config><o>;
-my $so = $*VM<config><load_ext>;
+use LibraryMake;
+my %vars = LibraryMake::get-vars('');
+my $o  = %vars<O>;
+my $so = %vars<SO>;
+my $cc = %vars<CC>;
+my $ccshared = %vars<CCSHARED>;
+my $ccout = %vars<CCOUT>;
+my $ccflags = %vars<CCFLAGS>;
+my $ld = %vars<LD>;
+my $ldshared = %vars<LDSHARED>;
+my $ldflags = %vars<LDFLAGS>;
+my $ldout = %vars<LDOUT>;
+my $libs = %vars<LIBS>;
 my $name = "IUP";
-my $libs = "-Wl,--no-as-needed -liup -liupimglib";
+my $lib-opts = "-Wl,--no-as-needed -liup -liupimglib";
 
-class Build is Panda::Builder {
-    method build(Pies::Project $p) {
-        my $workdir = $.resources.workdir($p);
-
-		my $c_line = "$*VM<config><cc> -c $*VM<config><cc_shared> $*VM<config><cc_o_out>src/$name$o "
-						~ "$*VM<config><ccflags> src/$name.c";
-		my $l_line = "$*VM<config><ld> $*VM<config><ld_load_flags> $*VM<config><ldflags> "
-						~ "$*VM<config><libs>$libs $*VM<config><ld_out>src/$name$so src/$name$o";
+class Build {
+    method build(|) {
+		my $c_line = "$cc -c $ccshared {$ccout}src/$name$o "
+						~ "$ccflags src/$name.c";
+		my $l_line = "$ld $ldshared $ldflags "
+						~ "$libs $lib-opts {$ldout}src/$name$so src/$name$o";
 		shell($c_line);
 		shell($l_line);
 		shell("rm src/$name$o");
